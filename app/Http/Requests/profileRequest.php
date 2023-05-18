@@ -25,7 +25,7 @@ class profileRequest extends FormRequest
     {
         return [
             "name" => 'required',
-            "email" => 'required',
+            "email" => 'required|unique:profiles',
             "password" => 'required|min:5|confirmed',
             "bio" => 'min:5',
             'image' => 'image|mimes:png,jpg,jpeg,svg|max:5120'

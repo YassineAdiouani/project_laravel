@@ -29,22 +29,13 @@ class profileController extends Controller
     public function store(profileRequest $request)
     {
         $name = $request->name;
-
         //validation
         $fomrFilds = $request->validated();
         //hash
         $fomrFilds['password'] = Hash::make($request->password);
-
         $this->uploadImage($request,$fomrFilds);
         //insert
         Profile::create($fomrFilds);
-        // [
-        //     'name' => $name,
-        //     'email' => $email,
-        //     'password' => $password,
-        //     'bio' => $bio
-        // ]
-
         //redicection
         return redirect()->route('profiles.index')->with('success','votre profiles '.$name.' est bien créé');
     }
@@ -63,8 +54,8 @@ class profileController extends Controller
     public function update(profileRequest $request, profile $profile)
     {
         $fomrFilds = $request->validated();
-        // $fomrFilds['password'] = Hash::make($request->password);
-        // $this->uploadImage($request,$fomrFilds);
+        $fomrFilds['password'] = Hash::make($request->password);
+        $this->uploadImage($request,$fomrFilds);
         $profile->fill($fomrFilds)->save();
         return redirect()->route('profiles.show',$profile->id)->with('success','le profile a été bien modifie');
     }
